@@ -101,11 +101,16 @@ exports.handleRequest = function (req, res) {
     var requestBody = '';
     req.on('data', function(data) {
       requestBody += data;
+      // console.log(requestBody);
+      // requestBody = JSON.parse(requestBody);
       requestBody = requestBody.slice(4);
       console.log(requestBody);
+      fs.appendFile(archive.paths.list, requestBody + '\n', function(err) {});
+      headers.Location = '/';
+      res.writeHead(302, headers);
+      res.end();
     });
 
-    // fs.appendFile('sites.txt', 'data to append', function(err) {});
 
   } else {
 
