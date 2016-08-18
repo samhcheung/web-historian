@@ -65,7 +65,7 @@ exports.handleRequest = function (req, res) {
     res.end();
   } else if ( req.method === 'GET') {
 
-    if (req.url === '/' || req.url === '/index.html' || req.headers.referer === 'http://127.0.0.1:8080/' ) {
+    if (req.url === '/' || req.url === '/index.html' || req.url === '/styles.css' || req.url === '/loading.html') {
       if (req.url === '/' || req.url === '/index.html') {
         currentPath = '/index.html';
       }
@@ -86,7 +86,7 @@ exports.handleRequest = function (req, res) {
       fs.exists(archive.paths.archivedSites + parsedUri.path, function(exists) {
         if (exists) {
           fs.readFile(archive.paths.archivedSites + parsedUri.path, function(error, data) {
-            headers['Content-Type'] = 'html/text';
+            headers['Content-Type'] = 'text/html';
             res.writeHead(200, headers);
             res.end('' + data);
           }); 
@@ -106,9 +106,15 @@ exports.handleRequest = function (req, res) {
       requestBody = requestBody.slice(4);
       console.log(requestBody);
       fs.appendFile(archive.paths.list, requestBody + '\n', function(err) {});
-      headers.Location = '/loading.html';
-      res.writeHead(302, headers);
-      res.end();
+      archive.isUrlArchived(requestBody, function(exists) {
+        if (exists) {
+          headers.Location = '/' + requestBody;
+        } else {
+          headers.Location = '/loading.html';
+        }
+        res.writeHead(302, headers);
+        res.end();
+      });
     });
 
 

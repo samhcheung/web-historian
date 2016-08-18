@@ -69,7 +69,7 @@ exports.isUrlArchived = function(string, func) {
 };
 
 exports.downloadUrls = function(array) {
-    
+
   array.forEach(function(item) {
 
     http.get({
@@ -78,10 +78,11 @@ exports.downloadUrls = function(array) {
       var body = '';
       response.on('data', function(data) {
         body += data;
-        // console.log(data);
+
       });
       response.on('end', function() {
-        console.log(exports.paths.archivedSites + '/' + item);
+
+        console.log(new Date, ' Page saved to:', exports.paths.archivedSites + '/' + item);
         fs.writeFile(exports.paths.archivedSites + '/' + item, body, function(error) {});
       });
     });
