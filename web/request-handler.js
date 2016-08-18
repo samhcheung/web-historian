@@ -106,7 +106,7 @@ exports.handleRequest = function (req, res) {
       requestBody = requestBody.slice(4);
       console.log(requestBody);
       fs.appendFile(archive.paths.list, requestBody + '\n', function(err) {});
-      headers.Location = '/';
+      headers.Location = '/loading.html';
       res.writeHead(302, headers);
       res.end();
     });
