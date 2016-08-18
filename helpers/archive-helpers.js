@@ -55,10 +55,16 @@ exports.isUrlInList = function(string, func) {
 //   }
 };
 
-exports.addUrlToList = function() {
+exports.addUrlToList = function(string, func) {
+  fs.appendFile(exports.paths.list, string + '\n', function(error) {
+    func();
+  });
 };
 
-exports.isUrlArchived = function() {
+exports.isUrlArchived = function(string, func) {
+  fs.exists(exports.paths.archivedSites + '/' + string, function(exists) {
+    func(exists);
+  });
 };
 
 exports.downloadUrls = function() {
