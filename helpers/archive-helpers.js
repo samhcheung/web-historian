@@ -31,10 +31,28 @@ exports.readListOfUrls = function(func) {
     var stringData = '' + data;
     array = stringData.split('\n');
     func(array);
+    return array;
   });
 };
 
-exports.isUrlInList = function() {
+exports.isUrlInList = function(string, func) {
+  fs.readFile(exports.paths.list, function(error, data) {
+    var array = [];
+    var stringData = '' + data;
+    array = stringData.split('\n');
+    if (array.indexOf(string) !== -1) {
+      func(true);
+    } else {
+      func(false);
+    }
+  });
+//   var array = exports.readListOfUrls(function() {});
+//   console.log(array);
+//   if (array.indexOf(string) !== -1) {
+//     func(true);
+//   } else {
+//     func(false);
+//   }
 };
 
 exports.addUrlToList = function() {
